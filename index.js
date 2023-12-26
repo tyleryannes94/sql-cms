@@ -1,11 +1,11 @@
 const inquirer = require ('inquirer');
-const mysql = require ('mysql12');
+const mysql = require('mysql2');
 
-const myConnection = mysql.createConnection ({
+const connection = mysql.createConnection ({
     host: 'localhost',
     user: 'root',
-    password: 'password',
-    datbase: 'employee_tracker'
+    password: '',
+    database: 'employee_tracker'
 });
 
 connection.connect (err => {
@@ -23,7 +23,6 @@ function startApp() {
         choices: [
             'View all employees',
             'View all departments',
-            // Add other choices here
         ]
     })
     .then(answer => {
@@ -31,13 +30,28 @@ function startApp() {
             case 'View all employees':
                 viewAllEmployees();
                 break;
-            // Add other cases here
         }
     });
 }
 
 function viewAllEmployees() {
     connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        startApp();
+    });
+}
+
+function viewAllDepartments() {
+    connection.query('SELECT * FROM department', (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        startApp();
+    });
+}
+
+function viewAllRoles() {
+    connection.query('SELECT * FROM role', (err, res) => {
         if (err) throw err;
         console.log(res);
         startApp();
