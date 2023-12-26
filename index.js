@@ -23,12 +23,23 @@ function startApp() {
         choices: [
             'View all employees',
             'View all departments',
+            'View all roles',
+            'Exit'
         ]
     })
     .then(answer => {
         switch (answer.action) {
             case 'View all employees':
                 viewAllEmployees();
+                break;
+            case 'View all departments':
+                viewAllDepartments();
+                break;
+            case 'View all roles':
+                viewAllRoles();
+                break;
+            case 'Exit':
+                connection.end();
                 break;
         }
     });
