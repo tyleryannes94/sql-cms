@@ -35,6 +35,9 @@ To use Employee Tracker, follow these steps:
 
 4. Use the interactive prompts to manage your employee database.
 
+## Video Walkthrough
+https://www.loom.com/share/0382f5a95b414b5bbfc0772443d2adec?sid=f1554d3b-809f-4495-ad83-11e0b35a9fdf
+
 ## Features
 
 Employee Tracker includes the following features:
