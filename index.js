@@ -65,6 +65,103 @@ function startApp() {
     });
 }
 
+function addDepartment() {
+    inquirer.prompt({
+        name: 'departmentName',
+        type: 'input',
+        message: 'What is the name of the new department?'
+    })
+    .then(answer => {
+        connection.query('INSERT INTO department (name) VALUES (?)', answer.departmentName, (err, res) => {
+            if (err) throw err;
+            console.log(`Added ${answer.departmentName} to departments.`);
+            startApp();
+        });
+    });
+}
+
+function addRole() {
+    connection.query('SELECT id, name FROM department', (err, departments) => {
+        if (err) throw err;
+
+        const departmentChoices = departments.map(({ id, name }) => ({
+            name: name,
+            value: id
+        }));
+
+        inquirer.prompt([
+            {
+                name: 'title',
+                type: 'input',
+                message: 'What is the title of the new role?'
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: 'What is the salary for this role?',
+                validate: value => !isNaN(value) || 'Please enter a number'
+            },
+            {
+                name: 'departmentId',
+                type: 'list',
+                message: 'Which department does this role belong to?',
+                choices: departmentChoices
+            }
+        ])
+        .then(answers => {
+            connection.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)',
+                [answers.title, answers.salary, answers.departmentId],
+                (err, res) => {
+                    if (err) throw err;
+                    console.log(`Added ${answers.title} to roles.`);
+                    startApp();
+                }
+            );
+        });
+    });
+}
+
+function addEmployee() {
+    connection.query('SELECT id, title FROM role', (err, roles) => {
+        if (err) throw err;
+
+        const roleChoices = roles.map(({ id, title }) => ({
+            name: title,
+            value: id
+        }));
+
+        inquirer.prompt([
+            {
+                name: 'firstName',
+                type: 'input',
+                message: 'What is the first name of the employee?'
+            },
+            {
+                name: 'lastName',
+                type: 'input',
+                message: 'What is the last name of the employee?'
+            },
+            {
+                name: 'roleId',
+                type: 'list',
+                message: 'What is the role of the employee?',
+                choices: roleChoices
+            }
+            // Optionally, you can add a prompt for the manager here
+        ])
+        .then(answers => {
+            connection.query('INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)',
+                [answers.firstName, answers.lastName, answers.roleId],
+                (err, res) => {
+                    if (err) throw err;
+                    console.log(`Added ${answers.firstName} ${answers.lastName} to employees.`);
+                    startApp();
+                }
+            );
+        });
+    });
+}
+
 
 function viewAllEmployees() {
     connection.query('SELECT * FROM employee', (err, res) => {
