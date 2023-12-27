@@ -24,6 +24,9 @@ function startApp() {
             'View all employees',
             'View all departments',
             'View all roles',
+            'Add a department',
+            'Add a role',
+            'Add an employee',
             'Update employee manager',
             'View employees by manager',
             'View employees by department',
@@ -42,6 +45,15 @@ function startApp() {
                 break;
             case 'View all roles':
                 viewAllRoles();
+                break;
+            case 'Add a department':
+                addDepartment();
+                break;
+            case 'Add a role':
+                addRole();
+                break;
+            case 'Add an employee':
+                addEmployee();
                 break;
             case 'Update employee manager':
                 updateEmployeeManager();
